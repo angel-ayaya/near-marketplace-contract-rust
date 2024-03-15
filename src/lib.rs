@@ -1,14 +1,15 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+use near_sdk::collections::UnorderedMap;
+use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
+use near_sdk::{near_bindgen, PanicOnDefault};
+
+#[near_bindgen]
+#[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
+pub struct Marketplace {
+     products: UnorderedMap<String, String>
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+#[near_bindgen]
+impl Marketplace {
+    // marketplace methods will be implemented here
 }
