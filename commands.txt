@@ -1,0 +1,15 @@
+
+
+Deployment
+near deploy contractor.testenoid.testnet target/wasm32-unknown-unknown/release/near_marketplace_contract.wasm
+
+Initialization
+near call contractor.testenoid.testnet init --accountId=testenoid.testnet
+
+Calling a Change Function
+// set_product
+near call contractor.testenoid.testnet set_product '{"id" : "1", "product_name" : "whiskey"}' --accountId=testenoid.testnet
+
+Calling a View Function
+// get_product
+near view contractor.testenoid.testnet get_product '{"id": "1"}'
