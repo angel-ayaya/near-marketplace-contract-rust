@@ -1,4 +1,5 @@
-
+Build contract
+RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release
 
 Deployment
 near deploy contractor.testenoid.testnet target/wasm32-unknown-unknown/release/near_marketplace_contract.wasm
@@ -12,4 +13,11 @@ near call contractor.testenoid.testnet set_product '{"id" : "1", "product_name" 
 
 Calling a View Function
 // get_product
+near view contractor.testenoid.testnet get_product '{"id": "1"}'
+
+
+Calling a Change Function on Product Model
+near call contractor.testenoid.testnet set_product '{"payload": {"id": "1", "name": "BBQ", "description": "Grilled chicken and beef served with vegetables and chips.", "location": "Berlin, Germany", "price": "1000000000000000000000000", "image": "https://i.imgur.com/yPreV19.png"}}' --accountId=testenoid.testnet
+
+Calling a View Function on Product Model
 near view contractor.testenoid.testnet get_product '{"id": "1"}'
