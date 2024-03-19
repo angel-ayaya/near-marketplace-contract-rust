@@ -181,6 +181,8 @@ dependencies = [
 name = "near-marketplace-contract"
 version = "0.1.0"
 dependencies = [
+ "borsh",
+ "borsh-derive",
  "near-sdk",
  "serde",
 ]
