@@ -21,3 +21,6 @@ near call contractor.testenoid.testnet set_product '{"payload": {"id": "1", "nam
 
 Calling a View Function on Product Model
 near view contractor.testenoid.testnet get_product '{"id": "1"}'
+
+
+
