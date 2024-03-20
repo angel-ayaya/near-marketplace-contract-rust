@@ -1,6 +1,6 @@
 use near_sdk::store::UnorderedMap;
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::{env, near_bindgen, AccountId, PanicOnDefault};
+use near_sdk::{env, near_bindgen, AccountId, PanicOnDefault, Promise, NearToken};
 use near_sdk::serde::{Serialize, Deserialize};
 
 
@@ -77,5 +77,26 @@ impl Marketplace {
     pub fn get_products(&self) -> Vec<Product> {
         return self.listed_products.iter().map(|(_, value)| value.clone()).collect::<Vec<_>>();
     }
-}
 
+    #[payable]
+    pub fn buy_product(&mut self, product_id: &String) {
+        match self.listed_products.get(product_id).cloned() {
+            Some(ref mut product) => {
+
+                let price_yoctonear: u128 = product.price.parse().expect("The product's price is not valid");
+
+                let deposit = env::attached_deposit();
+                let price_token = NearToken::from_yoctonear(price_yoctonear);
+                assert_eq!(deposit, price_token, "Attached deposit should be equal to the product's price.");
+
+                let owner = &product.owner.as_str();
+                Promise::new(owner.parse().unwrap()).transfer(NearToken::from_yoctonear(price_yoctonear));
+
+                product.increment_sold_amount();
+                self.listed_products.insert(product.id.clone(), product.clone());
+            },
+            _ => env::panic_str("product not found"),
+        } 
+
+}
+}
